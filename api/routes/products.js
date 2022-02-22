@@ -1,4 +1,5 @@
 const express = require('express');
+const { resetWatchers } = require('nodemon/lib/monitor/watch');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
@@ -8,8 +9,13 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+    const product = {
+        name: req.body.name,
+        price: req.body.price
+    }
     res.status(201).json({
-        message : 'Handling POST requests /products'
+        message : 'Handling POST requests /products',
+        createdProduct: product
     });
 });
 
