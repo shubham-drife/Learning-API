@@ -107,7 +107,7 @@ router.patch('/:productId', (req, res, next) => {
     }
     
     Product.updateMany({ _id: id}, { $set: updateOps})
-    .exec
+    .exec()
     .then(result => {
         console.log(result);
         res.status(200).json(result);
