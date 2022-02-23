@@ -1,5 +1,4 @@
 const express = require('express');
-const { resetWatchers } = require('nodemon/lib/monitor/watch');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Product = require('../models/product');
