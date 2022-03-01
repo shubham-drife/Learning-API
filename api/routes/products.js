@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const product = require('../models/product');
 const Product = require('../models/product');
 
-router.get('/', (req, res, next) => {
-    Product.find()
-    .select('name price _id')
-    .exec()
-    .then(docs => {
+router.get('/',async (req, res, next) => {
+    
+    
+    const docs = await product.find();
+    try{
         const response = {
             count: docs.length,
             products: docs.map(doc => {
@@ -22,26 +23,55 @@ router.get('/', (req, res, next) => {
                 }
             })
         }
-        res.status(200).json(response);
-    })
-    .catch(err => {
+        res.status(200).json(response); 
+    }catch(err){
         console.log(err);
         res.status(500).json({
             message: "Some problem",
             error: err
         })
-    })
+    }
+    
+    
+    // Product.find()
+    // .select('name price _id')
+    // .exec()
+    // .then(docs => {
+    //     const response = {
+    //         count: docs.length,
+    //         products: docs.map(doc => {
+    //             return {
+    //                 name: doc.name,
+    //                 price: doc.price,
+    //                 _id: doc._id,
+    //                 request: {
+    //                     type: 'GET',
+    //                     url: 'http://localhost:3000/products/' + doc._id
+    //                 }
+    //             }
+    //         })
+    //     }
+    //     res.status(200).json(response);
+    // })
+    // .catch(err => {
+    //     console.log(err);
+    //     res.status(500).json({
+    //         message: "Some problem",
+    //         error: err
+    //     })
+    // })
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
+    //console.log(req);
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price
     });
-    product
-    .save()
-    .then(result => {
+
+    const result = await product.save();
+    try{
         console.log(result);
         res.status(201).json({
             message : 'Created product successfully ',
@@ -55,13 +85,36 @@ router.post('/', (req, res, next) => {
                 }
             }
         });
-    })
-    .catch(err => {
+    }catch(err){
         console.log(err);
         res.status(500).json({
             error: err
         })
-    });
+    }
+
+    // product
+    // .save()
+    // .then(result => {
+    //     console.log(result);
+    //     res.status(201).json({
+    //         message : 'Created product successfully ',
+    //         createdProduct: {
+    //             name: result.name,
+    //             price: result.price,
+    //             _id: result._id,
+    //             request: {
+    //                 type: 'POST',
+    //                 url: 'http://localhost:3000/products/' + result._id
+    //             }
+    //         }
+    //     });
+    // })
+    // .catch(err => {
+    //     console.log(err);
+    //     res.status(500).json({
+    //         error: err
+    //     })
+    // });
     
 });
 
@@ -105,7 +158,7 @@ router.patch('/:productId', (req, res, next) => {
         updateOps[ops.propName] = ops.value;
     }
     
-    Product.updateMany({ _id: id}, { $set: updateOps})
+    Product.update({ _id: id}, { $set: updateOps})
     .exec()
     .then(result => {
         console.log(result);

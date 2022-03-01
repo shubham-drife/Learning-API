@@ -3,18 +3,21 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 const userRoutes = require('./api/routes/user');
 
-mongoose.connect('mongodb+srv://Shubham:9829904101@cluster0.cuol0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {});
+mongoose.connect('mongodb+srv://Shubham:9829904101@cluster1.tsszq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {});
 
 mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+app.use(cors());
 
 // app.use((req, res, next) => {
 //     res.header("Access-Control-Allow-Origin", '*');
