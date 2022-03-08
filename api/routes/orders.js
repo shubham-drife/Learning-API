@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const checkAuth = require('../middleware/check-auth');
 
 const Order = require('../models/order');
 const Product = require('../models/product');
 
-router.get('/',async (req, res, next) => {
+router.get('/', checkAuth, async (req, res, next) => {
     
     
     const docs = await Order.find();
@@ -58,7 +59,7 @@ router.get('/',async (req, res, next) => {
     // })
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
     
     
     // const product = await Product.findById(req.body.productId);
@@ -118,7 +119,7 @@ router.post('/', (req, res, next) => {
     
 });
 
-router.get('/:orderId', (req, res, next) => {
+router.get('/:orderId', checkAuth, (req, res, next) => {
     Order.findById(req.params.orderId)
     //.populate('product')
     .exec()
@@ -143,7 +144,7 @@ router.get('/:orderId', (req, res, next) => {
     })
 })
 
-router.delete('/:orderId', async (req, res, next) => {
+router.delete('/:orderId', checkAuth, async (req, res, next) => {
     
     const result = await Order.remove({_id: req.params.orderId});
     try{

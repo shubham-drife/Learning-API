@@ -9,7 +9,7 @@ const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 const userRoutes = require('./api/routes/user');
 
-mongoose.connect('mongodb+srv://Shubham:9829904101@cluster1.tsszq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {});
+mongoose.connect('mongodb+srv://Shubham:9829904101@cluster0.cuol0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {});
 
 mongoose.Promise = global.Promise;
 

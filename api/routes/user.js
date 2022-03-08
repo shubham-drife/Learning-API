@@ -125,7 +125,7 @@ router.post("/signup", async (req, res, next) => {
                             email: user[0].email,
                             userId: user[0]._id
                         },
-                        "Jwt-Private-Key",
+                        process.env.JWT_KEY,
                         {
                             expiresIn: "1h"
                         }
